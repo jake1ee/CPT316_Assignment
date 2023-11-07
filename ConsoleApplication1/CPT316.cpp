@@ -6,29 +6,39 @@ int main()
     char value[100];
     vector<char*> tokens;
 
-    cout << "Enter a String: ";
+    cout << "*\"E\" to terminate the program* \n Enter a String: ";
     cin.getline(value, 100);
 
-    Tokenization(value, tokens);
-    for (auto i = 0; i < tokens.size(); i++)
+    cout << strcmp(value, "E") << endl;
+
+    while (strcmp(value,"E"))
     {
-        cout << tokens[i];
+        tokens.clear();
 
-        if (isNumber(tokens[i]))
+        Tokenization(value, tokens);
+        for (auto i = 0; i < tokens.size(); i++)
         {
-            cout << " Is a Value" << endl;
+            cout << tokens[i];
+
+            if (isNumber(tokens[i]))
+                cout << " Is a Value" << endl;
+            else if (isOperator(tokens[i]))
+                cout << " Is a Operator" << endl;
+            else if (isParenthesis(tokens[i]))
+                cout << " Is a Parenthesis" << endl;
+            else
+                cout << " Not accepted" << endl;
         }
-        else if (isOperator(tokens[i]))
-        {
-            cout << " Is a Operator" << endl;
-        }
-        else
-        {
-            cout << " Not accepted" << endl;
-        }
+
+        cout << (SyntaxAnalyzer(tokens) ? "String Accepted" : "String Rejected") << endl;
+        
+        system("pause");
+        system("cls");
+
+        cout << "*\"E\" to terminate the program* \n Enter a String: ";
+        cin.getline(value, 100);
+
     }
-
-    cout << SyntaxAnalyzer(tokens);
-
+    
     return 0;
 }

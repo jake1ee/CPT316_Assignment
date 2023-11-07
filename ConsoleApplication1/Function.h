@@ -20,6 +20,11 @@ vector<char*> Tokenization(char input[], vector<char*>& v)
     return v;
 }
 
+// Function to check if the current token is a ‘(‘ or ‘)’
+bool isParenthesis(char* ch) {
+    return *ch == '(' || *ch == ')';
+}
+
 //check if the given character is an operator or not
 bool isOperator(char* ch)
 {
@@ -51,7 +56,7 @@ bool isNumber(char* str)
             numOfDecimal++;
         }
 
-        if ((str[i] == '-' && i >= 1) || ((str[i] > '9' || str[i] < '0') && str[i] != '-' && str[i] != '.'))
+        if ( (str[0] == '-' && len == 1) || (str[i] == '-' && i >= 1) || ((str[i] > '9' || str[i] < '0') && str[i] != '-' && str[i] != '.'))
         {
             return false;
         }
@@ -63,17 +68,44 @@ bool isNumber(char* str)
     return true;
 }
 
-//parse the expression
-bool SyntaxAnalyzer(vector<char*>& tokens)
-{
-    if (isOperator(tokens[0]) || isOperator(tokens[tokens.size() - 1]))
-        return false;
+// Function to parse an expression based on the grammar rules
+bool expr(vector<char*>::iterator& it, vector<char*>::iterator end) {
 
-    for (int i = 0; i < tokens.size() - 1; i++)
-    {
-        if (isOperator(tokens[i]) && isOperator(tokens[i + 1]) || (isNumber(tokens[i]) && isNumber(tokens[i + 1])))
-            return false;
+    if (it == end) return false; // End of tokens
+
+    // expr -> ‘-’ expr
+    if (**it == '-' && !isOperator(*it)) {
+        it++; // Consume the ‘-‘
+        return expr(it, end);
     }
 
-    return true;
+    // expr -> ‘(’ expr ‘)’
+    if (**it == '(') {
+        it++; // Consume the ‘(‘
+        if (!expr(it, end)) return false;
+        if (it == end || **it != ')') return false; // Missing ‘)’
+        it++; // Consume the ‘)’
+        return true;
+    }
+
+    // expr -> id
+    if (isNumber(*it)) {
+        it++; // Consume the id
+        if (it != end && isOperator(*it)) {
+            // expr -> expr op exprexpr
+            it++; // Consume the operator
+            return expr(it, end);
+        }
+        else {
+            return true; // No more tokens or next token is not an operator
+        }
+    }
+
+    return false; // Token is not an identifier or a valid expression
+}
+
+// Function to initiate the syntax analyzer
+bool SyntaxAnalyzer(vector<char*>& tokens) {
+    auto it = tokens.begin();
+    return expr(it, tokens.end()) && it == tokens.end();
 }
