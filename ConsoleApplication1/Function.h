@@ -20,7 +20,7 @@ vector<char*> Tokenization(char input[], vector<char*>& v)
     return v;
 }
 
-// Function to check if the current token is a ‘(‘ or ‘)’
+// Function to check if the current token is a  (  or  ) 
 bool isParenthesis(char* ch) {
     return *ch == '(' || *ch == ')';
 }
@@ -49,14 +49,29 @@ bool isNumber(char* str)
         return false;
     }
 
-    for (i = 0; i < len; i++)
+    // Allow a '-' sign at the beginning
+    if (str[0] == '-')
+    {
+        // If there is only a '-' sign, it's not a valid number
+        if (len == 1)
+            return false;
+
+        // Start checking from the second character
+        i = 1;
+    }
+    else
+    {
+        i = 0;
+    }
+
+    for (; i < len; i++)
     {
         if (str[i] == '.')
         {
             numOfDecimal++;
         }
 
-        if ( (str[0] == '-' && len == 1) || (str[i] == '-' && i >= 1) || ((str[i] > '9' || str[i] < '0') && str[i] != '-' && str[i] != '.'))
+        if ((str[i] > '9' || str[i] < '0') && str[i] != '.')
         {
             return false;
         }
@@ -73,24 +88,40 @@ bool expr(vector<char*>::iterator& it, vector<char*>::iterator end) {
 
     if (it == end) return false; // End of tokens
 
-    // expr -> ‘-’ expr
-    if (**it == '-' && !isOperator(*it)) {
-        it++; // Consume the ‘-‘
+    // expr ->  -  expr
+    if (**it == '-' && isOperator(*it)) {
+        it++; // Consume the  - 
+        if (**it == '-') return false;
         return expr(it, end);
     }
 
-    // expr -> ‘(’ expr ‘)’
+    // expr ->  (  expr  ) 
     if (**it == '(') {
-        it++; // Consume the ‘(‘
+        it++; // Consume the  ( 
         if (!expr(it, end)) return false;
-        if (it == end || **it != ')') return false; // Missing ‘)’
-        it++; // Consume the ‘)’
+        if (it == end || **it != ')') return false; // Missing  ) 
+        it++; // Consume the  ) 
+        if (it != end && isOperator(*it)) {
+            // expr -> expr op expr
+            it++; // Consume the operator
+            return expr(it, end);
+        }
         return true;
     }
 
     // expr -> id
     if (isNumber(*it)) {
+
+        if (**it == '-' && isOperator(*it))
+        {
+            it++; // Consume the  - 
+            if (**it == '-') return false;
+            return expr(it, end);
+        }
+
         it++; // Consume the id
+
+
         if (it != end && isOperator(*it)) {
             // expr -> expr op exprexpr
             it++; // Consume the operator
