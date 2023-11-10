@@ -40,12 +40,13 @@ The heart of the project lies in its ability to perform syntax analysis, determi
 
 * "E" to terminate the program *
 Enter a String: (2 + 3) * 4 - 5
-(2 Is a Value
-+ Is an Operator
-3 Is a Value
-) Is a Parenthesis
-* Is an Operator
-4 Is a Value
-- Is an Operator
-5 Is a Value
+'(' Is a Parenthesis
+'2' Is a Value
+'+' Is an Operator
+'3' Is a Value
+')' Is a Parenthesis
+'*' Is an Operator
+'4' Is a Value
+'-' Is an Operator
+'5' Is a Value
 String Accepted
