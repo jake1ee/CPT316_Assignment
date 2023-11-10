@@ -22,7 +22,7 @@ git clone https://github.com/yourusername/syntax-analyzer.git
 cd syntax-analyzer
 ```
 
-## Feature
+## Features
 
 ### Tokenization: 
 The program efficiently tokenizes input expressions, breaking them down into fundamental components such as numbers, operators, and parentheses.
@@ -36,7 +36,7 @@ The program efficiently tokenizes input expressions, breaking them down into fun
 ### Syntax Analysis: 
 The heart of the project lies in its ability to perform syntax analysis, determining whether the entered expression is well-formed and adheres to the defined grammar.
 
-## Example
+## Examples
 
 * "E" to terminate the program *
 Enter a String: (2 + 3) * 4 - 5
