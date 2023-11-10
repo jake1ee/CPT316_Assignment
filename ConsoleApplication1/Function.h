@@ -33,7 +33,7 @@ bool isOperator(char* ch)
         return false;
 
     if (*ch == '+' || *ch == '-' || *ch == '*' ||
-        *ch == '/' || *ch == '=')
+        *ch == '/' )
     {
         return true;
     }
