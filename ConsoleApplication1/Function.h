@@ -108,9 +108,14 @@ bool expr(vector<char*>::iterator& it, vector<char*>::iterator end) {
             return false;
             
         }
+        if (**it == '(') 
+        {
+            cout << "There is 2 open parenthesis stick together. ";
+            return false;
+        }
         if (it == end || **it != ')') 
         {
-            cout << " There is no closing perenthesis in this string. ";
+            cout << "There is no closing perenthesis in this string. ";
             return false; // Missing  ) 
         }
         it++; // Consume the  ) 
@@ -153,5 +158,5 @@ bool expr(vector<char*>::iterator& it, vector<char*>::iterator end) {
 // Function to initiate the syntax analyzer
 bool SyntaxAnalyzer(vector<char*>& tokens) {
     auto it = tokens.begin();
-    return expr(it, tokens.end()) && it == tokens.end();
+    return expr(it, tokens.end()) && it == tokens.end();
 }
