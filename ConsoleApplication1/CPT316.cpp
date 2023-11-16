@@ -6,7 +6,7 @@ int main()
     char value[100];
     vector<char*> tokens;
 
-    cout << "*\"E\" to terminate the program* \n Enter a String: ";
+    cout << "*\"E\" to terminate the program* \nEnter a String: ";
     cin.getline(value, 100);
 
     cout << strcmp(value, "E") << endl;
@@ -23,7 +23,7 @@ int main()
             if (isNumber(tokens[i]))
                 cout << " Is a Value" << endl;
             else if (isOperator(tokens[i]))
-                cout << " Is a Operator" << endl;
+                cout << " Is an Operator" << endl;
             else if (isParenthesis(tokens[i]))
                 cout << " Is a Parenthesis" << endl;
             else
