@@ -91,15 +91,28 @@ bool expr(vector<char*>::iterator& it, vector<char*>::iterator end) {
     // expr ->  -  expr
     if (**it == '-' && isOperator(*it)) {
         it++; // Consume the  - 
-        if (**it == '-') return false;
+        if (**it == '-') 
+        {
+            cout << "There is 2 negative sign stick together. ";
+            return false;
+        }
         return expr(it, end);
     }
 
     // expr ->  (  expr  ) 
     if (**it == '(') {
         it++; // Consume the  ( 
-        if (!expr(it, end)) return false;
-        if (it == end || **it != ')') return false; // Missing  ) 
+        if (!expr(it, end)) 
+        {
+            cout << " The string is not a complete string ";
+            return false;
+            
+        }
+        if (it == end || **it != ')') 
+        {
+            cout << " There is no closing perenthesis in this string. ";
+            return false; // Missing  ) 
+        }
         it++; // Consume the  ) 
         if (it != end && isOperator(*it)) {
             // expr -> expr op expr
@@ -115,7 +128,11 @@ bool expr(vector<char*>::iterator& it, vector<char*>::iterator end) {
         if (**it == '-' && isOperator(*it))
         {
             it++; // Consume the  - 
-            if (**it == '-') return false;
+            if (**it == '-') 
+            {
+                cout << " The string is not a complete string ";
+                return false;
+            }
             return expr(it, end);
         }
 
