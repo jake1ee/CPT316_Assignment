@@ -33,7 +33,7 @@ bool isOperator(char* ch)
         return false;
 
     if (*ch == '+' || *ch == '-' || *ch == '*' ||
-        *ch == '/' || *ch == '=')
+        *ch == '/' )
     {
         return true;
     }
@@ -49,7 +49,7 @@ bool isNumber(char* str)
         return false;
     }
 
-     // Allow a '-' sign at the beginning
+    // Allow a '-' sign at the beginning
     if (str[0] == '-')
     {
         // If there is only a '-' sign, it's not a valid number
@@ -91,7 +91,7 @@ bool expr(vector<char*>::iterator& it, vector<char*>::iterator end) {
     // expr ->  -  expr
     if (**it == '-' && isOperator(*it)) {
         it++; // Consume the  - 
-        if ( **it == '-') return false;
+        if (**it == '-') return false;
         return expr(it, end);
     }
 
@@ -111,18 +111,16 @@ bool expr(vector<char*>::iterator& it, vector<char*>::iterator end) {
 
     // expr -> id
     if (isNumber(*it)) {
-        
-        if (**it == '-' && isOperator(*it)) 
+
+        if (**it == '-' && isOperator(*it))
         {
             it++; // Consume the  - 
-            if ( **it == '-') return false;
+            if (**it == '-') return false;
             return expr(it, end);
         }
 
         it++; // Consume the id
-
-
-       if (it != end && isOperator(*it)) {
+        if (it != end && isOperator(*it)) {
             // expr -> expr op exprexpr
             it++; // Consume the operator
             return expr(it, end);
