@@ -82,34 +82,19 @@ bool isNumber(char* str)
 
     return true;
 }
-
 // Function to parse an expression based on the grammar rules
 bool expr(vector<char*>::iterator& it, vector<char*>::iterator end) {
 
-    if (it == end) return false; // End of tokens
-
-      if (isOperator(*it))
-    {
-        it++;
-        if (it == end)
-        {
-            cout << "The code start with an operator instead of an number. \n";
-            return false;
-        }
-        else if (isNumber(*it))
-        {
-            cout << "The code start with an operator and followed by an number. \n";
-            return false;
-        }
-       
+    if (it == end) {
+        cout << "Error: Unexpected end of expression." << endl;
+        return false;
     }
 
     // expr ->  -  expr
     if (**it == '-' && isOperator(*it)) {
         it++; // Consume the  - 
-        if (**it == '-') 
-        {
-            cout << "There is 2 negative sign stick together. \n";
+        if ( it != end && (**it != '-' && isOperator(*it))) {
+            cout << "Error: Invalid use of negative sign or operator." << endl;
             return false;
         }
         return expr(it, end);
@@ -118,22 +103,9 @@ bool expr(vector<char*>::iterator& it, vector<char*>::iterator end) {
     // expr ->  (  expr  ) 
     if (**it == '(') {
         it++; // Consume the  ( 
-       if (**it == '(') 
-        {
-            cout << "There is 2 open parenthesis stick together. \n";
-            return false;
-        }
-
-        if (!expr(it, end)) 
-        {
-            cout << " The string is not a complete string. \n";
-            return false;
-            
-        }
-        
-        if (it == end || **it != ')') 
-        {
-            cout << "There is no closing perenthesis in this string. \n";
+        if (!expr(it, end)) return false;
+        if (it == end || **it != ')') {
+            cout << "Error: Unmatched parentheses." << endl;
             return false; // Missing  ) 
         }
         it++; // Consume the  ) 
@@ -151,38 +123,31 @@ bool expr(vector<char*>::iterator& it, vector<char*>::iterator end) {
         if (**it == '-' && isOperator(*it))
         {
             it++; // Consume the  - 
-            if (**it == '-') 
-            {
-                cout << " The string is not a complete string \n";
-                return false;
-            }
+            if (**it == '-') return false;
             return expr(it, end);
         }
 
         it++; // Consume the id
+
         if (it != end && isOperator(*it)) {
             // expr -> expr op exprexpr
             it++; // Consume the operator
-            if (it == end)
-            {
-                cout << "Not complete string \n";
+            if (it != end && (**it == ')' || isOperator(*it))) {
+                cout << "Error: Invalid expression after operator." << endl;
                 return false;
             }
             return expr(it, end);
         }
         else if (it != end && isNumber(*it))
         {
-            cout <<"There is one or more than one number stick together wihtou any operator between them. \n";
+            cout << "Error: Invalid expression after number." << endl;
             return false;
         }
         else {
             return true; // No more tokens or next token is not an operator
         }
     }
-  
-    
 
-    cout << "There is a same operator stick together. \n";
     return false; // Token is not an identifier or a valid expression
 }
 
